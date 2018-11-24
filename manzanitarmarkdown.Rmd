@@ -1,0 +1,29 @@
+---
+title: "manzanita"
+author: "Joanna Tang"
+date: "11/23/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include = FALSE}
+
+# Loading packages, read in data
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+manzanita_veg_03_06_master <- read_csv("manzanita_03_06.csv")
+
+```
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+
+# Convert manzanita_03_06 into tidy format, replace NAs with 0s
+manzanita_veg_03_06 <- gather(filter(manzanita_veg_03_06_master, Pool != "NA"), key = "Transect_Distance", value = "Percent_Cover", -c(Pool, Day, Month, Year, Species, Transect_Direction)) %>% 
+  mutate_all(funs(replace(., is.na(.), 0)))
+
+```
+
